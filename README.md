@@ -39,12 +39,13 @@ docker-compose exec app npx prisma migrate dev --name init
 ```
 
 ### 5. 動作確認
-http://localhost:3000/　に接続し、「Hello World！」が表示されていればOK
+http://localhost:3000/  
+上記に接続し、「Hello World！」が表示されていればOK
 
-Postmanなどで下記のリクエストを送信し、201が帰ってくればOK
 
-POST http://localhost:3000/schedules
-body
-title:test
-start_date:2025-01-18T15:00:00.000Z
-end_date:2025-01-19T15:00:00.000Z
+Postmanなどで下記のリクエストを送信し、201が帰ってくればOK  
+POST http://localhost:3000/schedules  
+body  
+title:test  
+start_date:2025-01-18T15:00:00.000Z  
+end_date:2025-01-19T15:00:00.000Z  
