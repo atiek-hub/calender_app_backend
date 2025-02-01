@@ -13,84 +13,38 @@
    - ORM： Prisma
 
 ## 環境構築
-
-### 1. ビルド
-
+### 1.  Gitリポジトリをクローン
 ```bash
-% docker compose up -d --build
-% docker compose ps
+git clone <リポジトリのURL>
+cd <プロジェクトフォルダ>
+yarn install
 ```
 
-### 2. Nestプロジェクトをdockerコンテナのワーキングディレクトリに作成
-
-```bash
-% docker compose exec nest nest new .
-
-? Which package manager would you ❤️  to use? (Use arrow keys)
-❯ npm
-  yarn
-  pnpm
-
-→yarnを選択
-```
-
-### 3. 起動確認
-```bash
-% docker compose exec nest npm run start:dev
-```
-http://localhost:3000/
-にアクセスして、Hello World!と表示されたら、起動成功。
-
-DockerFileの下記のコメントアウトを外すことで次回からビルド時に自動起動できる
-```bash
-COPY package*.json /api/ 
-
-RUN npm i
-CMD [ "npm", "run", "start:dev"]
-```
-
-コメントアウトを外した後再ビルド
-```bash
-docker compose up -d --build
-```
-### 4. DBが作成されているか確認
-.envファイルを作成し、下記を記載
+### 2. 環境変数ファイルの準備
+.envファイルをプロジェクトのルートに作成し、下記を記載
 ```bash
 DATABASE_URL="mysql://root:root@nestjs-mysql:3306/nestjs-db"
 ```
+### 3. Dockerコンテナの起動
+以下のコマンドでコンテナをビルド＆起動
 ```bash
-% docker compose up
+docker-compose up -d --build
 ```
-MySQLの管理ツールphpmyadminのimageを入れたので
-http://localhost:8080/
-にアクセスすればDBの確認ができる。
-「nestjs_demo」というDBができていれば成功。
+これにより、NestJS アプリとデータベース（例: PostgreSQL, MySQL）が起動する。
 
-### 5. Prismaを利用してMySQLと接続する
+### 4. Prisma のデータベース設定
+以下のコマンドでデータベースをセットアップします。
 ```bash
-Prismaのパッケージをインストール
- % docker compose run nest npm install --save-dev prisma
+docker-compose exec app npx prisma migrate dev --name init
 ```
 
-```bash
-Prismaの初期化
- % docker compose run nest npx prisma init
-```
-この時点で、prismaというフォルダが作成される。 prismaフォルダの中にschema.prismaがあり、
-それを編集していくことで、DBのモデルを作成する。
+### 5. 動作確認
+http://localhost:3000/　に接続し、「Hello World！」が表示されていればOK
 
-### 6. prismaスキーマファイル編集
-prisma/schema.prismaの内容をコピーする
-デフォルトでは、datesource dbのプロバイダーがpostgresqlになっているので、mysqlに変更している
+Postmanなどで下記のリクエストを送信し、201が帰ってくればOK
 
-### 7. prismaスキーマファイルのマイグレート
-```bash
- % docker compose run nest npx prisma migrate dev --name init
-```
-上記を実行後、マイグレーションファイルが作成される
-
-### 8. PrismaClientのインストール
-```
-% docker compose run nest npm install @prisma/client
-```
-次回以降Prismaモデルを変更するたびにこのコマンドを実行し、生成されたPrismaクライアントを更新する必要がある。
+POST http://localhost:3000/schedules
+body
+title:test
+start_date:2025-01-18T15:00:00.000Z
+end_date:2025-01-19T15:00:00.000Z
