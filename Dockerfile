@@ -4,7 +4,9 @@ RUN npm i -g @nestjs/cli
 
 WORKDIR /api
 
-COPY package*.json /api/
+# 起動確認後下記のコメントアウトを外すことで、次回から自動で起動してくれる
 
-RUN yarn install
-CMD ["yarn", "start:dev"]
+# COPY package*.json /api/
+
+# RUN yarn install
+# CMD ["yarn", "start:dev"]
