@@ -14,10 +14,6 @@
 
 ## 環境構築
 
-### 0.DockerFile、docker-compose.ymlのコピー
-
-- 作業用ディレクトリをローカルに作成し、DockerFile、docker-compose.ymlをコピーします。
-
 ### 1. ビルド
 
 ```bash
