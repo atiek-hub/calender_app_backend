@@ -94,27 +94,3 @@ prisma/schema.prismaの内容をコピーする
 % docker compose run nest npm install @prisma/client
 ```
 次回以降Prismaモデルを変更するたびにこのコマンドを実行し、生成されたPrismaクライアントを更新する必要がある。
-
-### 9. Prisma Client service作成
-```
-docker-compose run nest nest generate service Prisma
-```
-PrismaClientのインスタンス化とデータベースへの接続を行うPrismaService
-srcディレクトリ内にprisma.service.tsというファイルを新規に作成し、下記のコードを追加する。
-```typescript
-import { INestApplication, Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-
-@Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
-  async onModuleInit() {
-    await this.$connect();
-  }
-
-  async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
-    });
-  }
-}
-```
