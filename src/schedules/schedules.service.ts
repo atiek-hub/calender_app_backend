@@ -6,22 +6,22 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class SchedulesService {
   constructor(private prisma: PrismaService) {}
 
-  async schedule(id: number): Promise<Schedule | null> {
-    return this.prisma.schedule.findUnique({
-      where: { id },
+  async schedules(userId: string): Promise<Schedule[]> {
+    return this.prisma.schedule.findMany({
+      where: { userId },
     });
-  }
-
-  async schedules(): Promise<Schedule[]> {
-    return this.prisma.schedule.findMany();
   }
 
   async createSchedule(data: Prisma.ScheduleCreateInput): Promise<Schedule> {
     data.start_date = new Date(data.start_date);
     data.end_date = new Date(data.end_date);
-    return this.prisma.schedule.create({
-      data,
-    });
+    try {
+      return this.prisma.schedule.create({
+        data,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async deleteSchedule(id: number): Promise<Schedule> {
