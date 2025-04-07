@@ -35,7 +35,7 @@ docker-compose up -d --build
 ### 4. Prisma のデータベース設定
 以下のコマンドでデータベースをセットアップします。
 ```bash
-docker-compose exec app npx prisma migrate dev --name init
+docker-compose exec nest npx prisma migrate dev --name init
 ```
 
 ### 5. 動作確認
