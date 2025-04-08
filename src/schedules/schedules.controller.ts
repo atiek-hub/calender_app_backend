@@ -26,7 +26,13 @@ export class SchedulesController {
 
   @Post()
   async createSchedule(
-    @Body() scheduleData: { title: string; start_date: Date; end_date: Date },
+    @Body()
+    scheduleData: {
+      title: string;
+      start: Date;
+      end: Date;
+      allDay: boolean;
+    },
   ): Promise<Schedule> {
     return this.schedulesService.createSchedule(scheduleData);
   }
@@ -39,7 +45,13 @@ export class SchedulesController {
   @Patch(':id')
   async updateSchedule(
     @Param('id') id: string,
-    @Body() scheduleData: { title: string; start_date: Date; end_date: Date },
+    @Body()
+    scheduleData: {
+      title: string;
+      start: Date;
+      end: Date;
+      allDay: boolean;
+    },
   ): Promise<Schedule> {
     return this.schedulesService.updateSchedule(Number(id), scheduleData);
   }
