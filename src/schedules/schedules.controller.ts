@@ -24,8 +24,9 @@ export class SchedulesController {
     @Body()
     scheduleData: {
       title: string;
-      start_date: Date;
-      end_date: Date;
+      start: Date;
+      end: Date;
+      allDay: boolean;
       user: {
         connect: { id: string };
       };
@@ -45,11 +46,9 @@ export class SchedulesController {
     @Body()
     scheduleData: {
       title: string;
-      start_date: Date;
-      end_date: Date;
-      user: {
-        connect: { id: string };
-      };
+      start: Date;
+      end: Date;
+      allDay: boolean;
     },
   ): Promise<Schedule> {
     return this.schedulesService.updateSchedule(Number(id), scheduleData);

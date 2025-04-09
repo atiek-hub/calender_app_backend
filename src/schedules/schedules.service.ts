@@ -13,8 +13,9 @@ export class SchedulesService {
   }
 
   async createSchedule(data: Prisma.ScheduleCreateInput): Promise<Schedule> {
-    data.start_date = new Date(data.start_date);
-    data.end_date = new Date(data.end_date);
+    data.start = new Date(data.start);
+    data.end = new Date(data.end);
+    data.allDay = Boolean(data.allDay);
     try {
       return this.prisma.schedule.create({
         data,
