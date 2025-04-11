@@ -9,4 +9,9 @@ WORKDIR /api
 COPY package*.json /api/
 
 RUN yarn install
+
+COPY . .
+
+RUN yarn build
+
 CMD ["yarn", "start:dev"]
