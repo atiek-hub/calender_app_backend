@@ -12,6 +12,9 @@ RUN yarn
 
 COPY . .
 
+# Prisma Clientを生成
+RUN npx prisma generate
+
 RUN yarn build
 
 CMD ["yarn", "start:dev"]
